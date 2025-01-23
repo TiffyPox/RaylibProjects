@@ -1,6 +1,5 @@
 #include <raylib/raylib.h>
 #include "game_screen.h"
-#include <iostream>
 
 void UpdateMenu(GameScreen &currentScreen);
 void UpdatePlaying(GameScreen &currentScreen);
@@ -15,11 +14,17 @@ void DrawGameOver();
 const int screenWidth = 1920;
 const int screenHeight = 1200;
 
+const char* menuText = "Press SPACE to play! Press ESCAPE anytime to close the game.";
+const char* playingText = "Press SPACE or TAP anywhere to pause the game!";
+const char* pausedText = "Press SPACE to end the game";
+const char* gameOverText = "Press SPACE or TAP to go back to the MENU";
+
+const int fontSize = 40;
+
 // Main entry point
 int main(void)
 {
     // Initialization
-
     InitWindow(screenWidth, screenHeight, "Tiffany's Game");
 
     GameScreen currentScreen = MENU;
@@ -61,6 +66,7 @@ int main(void)
     return 0;
 }
 
+// Update Functions
 void UpdateMenu(GameScreen &currentScreen)
 {
     if (IsKeyPressed(KEY_SPACE))
@@ -81,7 +87,6 @@ void UpdatePaused(GameScreen &currentScreen)
 {
     if (IsKeyPressed(KEY_SPACE))
     {
-        printf("Transitioning to GAMEOVER screen\n");  // Debugging line
         currentScreen = GAMEOVER;
     }
 }
@@ -94,30 +99,40 @@ void UpdateGameOver(GameScreen &currentScreen)
     }
 }
 
+// Draw Functions
 void DrawMenu()
 {
+    // Measure text to center it
+    int menuTextSize = MeasureText(menuText, fontSize);
+
     DrawRectangle(0, 0, screenWidth, screenHeight, GREEN);
-    DrawText("MENU SCREEN", 20, 20, 40, BLACK);
-    DrawText("Press SPACE to play! Press ESCAPE anytime to close the game.", 290, 220, 40, BLACK);
+    DrawText("MENU SCREEN", 20, 20, fontSize, BLACK);
+    DrawText(menuText, screenWidth / 2 - menuTextSize / 2, screenHeight / 2, fontSize, BLACK);
 }
 
 void DrawPlaying()
 {
+    int playingTextSize = MeasureText(playingText, fontSize);
+
     DrawRectangle(0, 0, screenWidth, screenHeight, PINK);
-    DrawText("GAME SCREEN", 20, 20, 40, BLACK);
-    DrawText("Press SPACE or TAP to pause the game!", 120, 220, 40, BLACK);
+    DrawText("GAME SCREEN", 20, 20, fontSize, BLACK);
+    DrawText(playingText, screenWidth / 2 - playingTextSize / 2, screenHeight / 2, fontSize, BLACK);
 }
 
 void DrawPaused()
 {
+    int pausedTextSize = MeasureText(pausedText, fontSize);
+
     DrawRectangle(0, 0, screenWidth, screenHeight, PURPLE);
-    DrawText("PAUSE SCREEN", 20, 20, 40, BLACK);
-    DrawText("Press SPACE to end the game", 130, 220, 40, BLACK);
+    DrawText("PAUSE SCREEN", 20, 20, fontSize, BLACK);
+    DrawText(pausedText, screenWidth / 2 - pausedTextSize / 2, screenHeight / 2, fontSize, BLACK);
 }
 
 void DrawGameOver()
 {
+    int gameOverTextSize = MeasureText(gameOverText, fontSize);
+
     DrawRectangle(0, 0, screenWidth, screenHeight, BLUE);
-    DrawText("GAME OVER SCREEN", 20, 20, 40, BLACK);
-    DrawText("Press SPACE or TAP to go back to the MENU", 120, 220, 40, BLACK);
+    DrawText("GAME OVER SCREEN", 20, 20, fontSize, BLACK);
+    DrawText(gameOverText, screenWidth / 2 - gameOverTextSize / 2, screenHeight / 2, fontSize, BLACK);
 }
