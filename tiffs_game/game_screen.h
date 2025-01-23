@@ -4,10 +4,10 @@
 // Define the GameScreen enum
 typedef enum GameScreen 
 {
-    LOGO = 0,
-    TITLE,
-    GAMEPLAY,
-    ENDING
+    MENU = 0,
+    PLAYING,
+    PAUSED,
+    GAMEOVER
 } GameScreen;
 
 #endif // GAME_SCREEN_H

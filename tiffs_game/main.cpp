@@ -1,15 +1,16 @@
 #include <raylib/raylib.h>
 #include "game_screen.h"
+#include <iostream>
 
-void UpdateLogo(int &framesCounter, GameScreen &currentScreen);
-void UpdateTitle(GameScreen &currentScreen);
-void UpdateGameplay(GameScreen &currentScreen);
-void UpdateEnding(GameScreen &currentScreen);
+void UpdateMenu(GameScreen &currentScreen);
+void UpdatePlaying(GameScreen &currentScreen);
+void UpdatePaused(GameScreen &currentScreen);
+void UpdateGameOver(GameScreen &currentScreen);
 
-void DrawLogo();
-void DrawTitle();
-void DrawGameplay();
-void DrawEnding();
+void DrawMenu();
+void DrawPlaying();
+void DrawPaused();
+void DrawGameOver();
 
 const int screenWidth = 1920;
 const int screenHeight = 1200;
@@ -21,9 +22,7 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "Tiffany's Game");
 
-    GameScreen currentScreen = LOGO;
-
-    int framesCounter = 0;
+    GameScreen currentScreen = MENU;
 
     SetTargetFPS(60);
 
@@ -33,10 +32,10 @@ int main(void)
         // Update
         switch (currentScreen)
         {
-            case LOGO: UpdateLogo(framesCounter, currentScreen); break;
-            case TITLE: UpdateTitle(currentScreen); break;
-            case GAMEPLAY: UpdateGameplay(currentScreen); break;
-            case ENDING: UpdateEnding(currentScreen); break;
+            case MENU: UpdateMenu(currentScreen); break;
+            case PLAYING: UpdatePlaying(currentScreen); break;
+            case PAUSED: UpdatePaused(currentScreen); break;
+            case GAMEOVER: UpdateGameOver(currentScreen); break;
             default: break;
         }
 
@@ -46,10 +45,10 @@ int main(void)
 
         switch(currentScreen)
         {
-            case LOGO: DrawLogo(); break;
-            case TITLE: DrawTitle(); break;
-            case GAMEPLAY: DrawGameplay(); break;
-            case ENDING: DrawEnding(); break;
+            case MENU: DrawMenu(); break;
+            case PLAYING: DrawPlaying(); break;
+            case PAUSED: DrawPaused(); break;
+            case GAMEOVER: DrawGameOver(); break;
             default: break;
         }
 
@@ -62,62 +61,63 @@ int main(void)
     return 0;
 }
 
-void UpdateLogo(int &framesCounter, GameScreen &currentScreen)
+void UpdateMenu(GameScreen &currentScreen)
 {
-    framesCounter++;
-    if (framesCounter > 120) // Wait for 2 seconds
+    if (IsKeyPressed(KEY_SPACE))
     {
-        currentScreen = TITLE;
+        currentScreen = PLAYING;
     }
 }
 
-void UpdateTitle(GameScreen &currentScreen)
+void UpdatePlaying(GameScreen &currentScreen)
 {
-    if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+    if (IsKeyPressed(KEY_SPACE) || IsGestureDetected(GESTURE_TAP))
     {
-        currentScreen = GAMEPLAY;
+        currentScreen = PAUSED;
     }    
 }
 
-void UpdateGameplay(GameScreen &currentScreen)
+void UpdatePaused(GameScreen &currentScreen)
 {
-    if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+    if (IsKeyPressed(KEY_SPACE))
     {
-        currentScreen = ENDING;
+        printf("Transitioning to GAMEOVER screen\n");  // Debugging line
+        currentScreen = GAMEOVER;
     }
 }
 
-void UpdateEnding(GameScreen &currentScreen)
+void UpdateGameOver(GameScreen &currentScreen)
 {
-    if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+    if (IsKeyPressed(KEY_SPACE) || IsGestureDetected(GESTURE_TAP))
     {
-        currentScreen = TITLE;
+        currentScreen = MENU;
     }
 }
 
-void DrawLogo()
-{
-    DrawText("LOGO SCREEN", 20, 20, 40, SKYBLUE);
-    DrawText("WAIT for 2 seconds...", 290, 220, 40, BLACK);
-}
-
-void DrawTitle()
+void DrawMenu()
 {
     DrawRectangle(0, 0, screenWidth, screenHeight, GREEN);
-    DrawText("TITLE SCREEN", 20, 20, 40, BLACK);
-    DrawText("Press ENTER or TAP to jump to GAMEPLAY SCREEN", 120, 220, 40, BLACK);
+    DrawText("MENU SCREEN", 20, 20, 40, BLACK);
+    DrawText("Press SPACE to play! Press ESCAPE anytime to close the game.", 290, 220, 40, BLACK);
 }
 
-void DrawGameplay()
+void DrawPlaying()
+{
+    DrawRectangle(0, 0, screenWidth, screenHeight, PINK);
+    DrawText("GAME SCREEN", 20, 20, 40, BLACK);
+    DrawText("Press SPACE or TAP to pause the game!", 120, 220, 40, BLACK);
+}
+
+void DrawPaused()
 {
     DrawRectangle(0, 0, screenWidth, screenHeight, PURPLE);
-    DrawText("GAMEPLAY SCREEN", 20, 20, 40, BLACK);
-    DrawText("Press ENTER or TAP to jump to ENDING SCREEN", 130, 220, 40, BLACK);
+    DrawText("PAUSE SCREEN", 20, 20, 40, BLACK);
+    DrawText("Press SPACE to end the game", 130, 220, 40, BLACK);
 }
 
-void DrawEnding()
+void DrawGameOver()
 {
     DrawRectangle(0, 0, screenWidth, screenHeight, BLUE);
-    DrawText("ENDING SCREEN", 20, 20, 40, BLACK);
-    DrawText("Press ENTER or TAP to jump to TITLE SCREEN", 120, 220, 40, BLACK);
+    DrawText("GAME OVER SCREEN", 20, 20, 40, BLACK);
+    DrawText("Press SPACE or TAP to go back to the MENU", 120, 220, 40, BLACK);
 }
