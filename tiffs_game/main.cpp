@@ -30,7 +30,7 @@ int main(void)
 
     Screen currentScreen = Screen::MENU;
 
-    Player player({screenWidth / 2 - 25, screenHeight / 2 - 25});
+    Player player({screenWidth / 2 - 25, screenHeight - 100});
 
     SetTargetFPS(60);
 
@@ -80,12 +80,12 @@ void UpdateMenu(Screen &currentScreen)
 
 void UpdatePlaying(Screen &currentScreen, Player &player)
 {
-    player.Update();
+    player.Update();   
 
-    if (IsKeyPressed(KEY_SPACE) || IsGestureDetected(GESTURE_TAP))
-    {
-        currentScreen = Screen::PAUSED;
-    }    
+    // if (IsKeyPressed(KEY_SPACE) || IsGestureDetected(GESTURE_TAP))
+    // {
+    //     currentScreen = Screen::PAUSED;
+    // }    
 }
 
 void UpdatePaused(Screen &currentScreen)
@@ -121,7 +121,7 @@ void DrawPlaying(Player &player)
 
     DrawRectangle(0, 0, screenWidth, screenHeight, PINK);
     DrawText("GAME SCREEN", 20, 20, fontSize, BLACK);
-    DrawText(playingText, screenWidth / 2 - playingTextSize / 2, screenHeight / 2, fontSize, BLACK);
+    //DrawText(playingText, screenWidth / 2 - playingTextSize / 2, screenHeight / 2, fontSize, BLACK);
 
     player.Draw();
 }
