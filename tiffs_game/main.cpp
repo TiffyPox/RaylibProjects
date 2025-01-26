@@ -1,6 +1,8 @@
 #include <raylib/raylib.h>
 #include "screen.h"
 #include "Entities/player.h"
+#include "Entities/sprite.h"
+#include <iostream>
 
 void UpdateMenu(Screen &currentScreen);
 void UpdatePlaying(Screen &currentScreen, Player &player);
@@ -22,6 +24,19 @@ const char* gameOverText = "Press SPACE or TAP to go back to the MENU";
 
 const int fontSize = 40;
 
+Texture2D texture;
+
+Sprite* bubble;
+
+int frameWidth = texture.width / 6;
+int frameHeight = texture.height;
+
+Rectangle sourceRec = { 0.0f, 0.0f, (float)frameWidth, (float)frameHeight };
+
+Rectangle destRec = { screenWidth / 2, screenHeight / 2, frameWidth * 2.0f, frameHeight * 2.0f };
+
+Vector2 origin = { (float)frameWidth, (float)frameHeight };
+
 // Main entry point
 int main(void)
 {
@@ -31,6 +46,10 @@ int main(void)
     Screen currentScreen = Screen::MENU;
 
     Player player({screenWidth / 2 - 25, screenHeight - 100});
+
+    texture = LoadTexture("Content/sprite_sheet.png");
+
+    bubble = new Sprite(texture, 0, 0, 22, 23, 2);
 
     SetTargetFPS(60);
 
@@ -49,21 +68,25 @@ int main(void)
 
         // Draw
         BeginDrawing();
-        ClearBackground(SKYBLUE);
+            ClearBackground(SKYBLUE);
 
-        switch(currentScreen)
-        {
-            case Screen::MENU: DrawMenu(); break;
-            case Screen::PLAYING: DrawPlaying(player); break;
-            case Screen::PAUSED: DrawPaused(); break;
-            case Screen::GAMEOVER: DrawGameOver(); break;
-            default: break;
-        }
+            bubble->Draw({400, 300}, RAYWHITE);
+
+            switch(currentScreen)
+            {
+                case Screen::MENU: DrawMenu(); break;
+                case Screen::PLAYING: DrawPlaying(player); break;
+                case Screen::PAUSED: DrawPaused(); break;
+                case Screen::GAMEOVER: DrawGameOver(); break;
+                default: break;
+            }
 
         EndDrawing();
     }
 
     // De-Initialization
+    UnloadTexture(texture);
+    delete bubble;
     CloseWindow();
 
     return 0;
@@ -80,7 +103,9 @@ void UpdateMenu(Screen &currentScreen)
 
 void UpdatePlaying(Screen &currentScreen, Player &player)
 {
-    player.Update();   
+    player.Update();
+
+    DrawTexturePro(texture, sourceRec, destRec, origin, 0.0f, WHITE);
 
     // if (IsKeyPressed(KEY_SPACE) || IsGestureDetected(GESTURE_TAP))
     // {
