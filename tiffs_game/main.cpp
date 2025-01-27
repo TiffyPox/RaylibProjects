@@ -31,7 +31,7 @@ Sprite* bubble;
 int frameWidth = texture.width / 6;
 int frameHeight = texture.height;
 
-Rectangle sourceRec = { 0.0f, 0.0f, (float)frameWidth, (float)frameHeight };
+Rectangle sourceRec = { 0, 0, (float)frameWidth, (float)frameHeight };
 
 Rectangle destRec = { screenWidth / 2, screenHeight / 2, frameWidth * 2.0f, frameHeight * 2.0f };
 
@@ -105,7 +105,7 @@ void UpdatePlaying(Screen &currentScreen, Player &player)
 {
     player.Update();
 
-    DrawTexturePro(texture, sourceRec, destRec, origin, 0.0f, WHITE);
+    DrawTexturePro(texture, sourceRec, destRec, origin, 0.0f, RAYWHITE);
 
     // if (IsKeyPressed(KEY_SPACE) || IsGestureDetected(GESTURE_TAP))
     // {
