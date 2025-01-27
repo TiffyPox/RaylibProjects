@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "game_entity.h"
-//#include "sprite.h"
+#include "sprite.h"
 #include "player_state.h"
 #include <raylib/raylib.h>
 

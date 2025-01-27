@@ -49,7 +49,7 @@ int main(void)
 
     texture = LoadTexture("Content/sprite_sheet.png");
 
-    bubble = new Sprite(texture, 0, 0, 22, 23, 2);
+    bubble = new Sprite(texture, 0, 0, 22, 23, 6);
 
     SetTargetFPS(60);
 
@@ -70,7 +70,7 @@ int main(void)
         BeginDrawing();
             ClearBackground(SKYBLUE);
 
-            bubble->Draw({400, 300}, RAYWHITE);
+            //bubble->Draw({0, 0}, RAYWHITE);
 
             switch(currentScreen)
             {
@@ -147,6 +147,8 @@ void DrawPlaying(Player &player)
     DrawRectangle(0, 0, screenWidth, screenHeight, PINK);
     DrawText("GAME SCREEN", 20, 20, fontSize, BLACK);
     //DrawText(playingText, screenWidth / 2 - playingTextSize / 2, screenHeight / 2, fontSize, BLACK);
+
+    bubble->Draw({screenWidth / 2, screenHeight / 2}, RAYWHITE);
 
     player.Draw();
 }
