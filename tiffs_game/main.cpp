@@ -24,6 +24,7 @@ const char* gameOverText = "Press SPACE or TAP to go back to the MENU";
 
 const int fontSize = 40;
 
+// Spritesheet
 Texture2D texture;
 
 Sprite* bubble;

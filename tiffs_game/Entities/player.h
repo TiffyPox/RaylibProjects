@@ -9,7 +9,6 @@
 class Player : public GameEntity
 {
 private:
-    //Sprite sprite;
     Vector2 position;
     bool isAlive;
     float speed;
@@ -21,10 +20,12 @@ private:
     bool isJumping;
     bool isOnGround;
 
+    //Sprite sprite;
+
 public:
     // Constructor
     Player(Vector2 position, float speed = 5.0f, Color color = BLACK)
-        : position(position), speed(speed), color(color), jumpSpeed(20.0f), gravity(1.0f) {}
+        : position(position), speed(speed), color(color), jumpSpeed(20.0f), gravity(1.0f) {} //sprite(playerTexture, 0, 0, 32, 32)
 
     int GetDrawOrder() const override
     {
@@ -40,9 +41,11 @@ public:
     }
 
     //Handle player movement
-    void Move(int direction)
+    void Move(int x)
     {
-        position.x += direction * speed;
+        position.x += x * speed;
+
+        //int spriteWidth = sprite.GetRenderWidth();
 
         // Prevent the player from going off-screen
         if (position.x < 0) 
@@ -51,7 +54,7 @@ public:
         } 
         else if (position.x > 1920 - 100) 
         {
-            position.x = 1920 - 100; // 100 is the player width (size of rectangle)
+            position.x = 1920 - 100;
         }
     }
 
@@ -105,7 +108,7 @@ public:
 
     void Draw() const override
     {
-        //sprite.Draw(position, WHITE);
+        //sprite.Draw(position, RAYWHITE);
         DrawRectangleV(position, {100, 100}, color);
     }
 
